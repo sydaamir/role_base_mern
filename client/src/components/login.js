@@ -4,9 +4,9 @@ import '../components/style.global.css';
 const Login = ({loginemail, setloginEmail, loginpassword, setloginPassword }) => {
     return(
         <>
-            <form className='components_abc'>
+            <form className='components'>
                 <div style={{textAlign:'center'}}>
-                    <label >Sign In </label>
+                    <label className="top-label" >Sign In </label>
                 </div>
                 <div>
                     <label className='text-label' htmlFor="email">Email</label>
@@ -39,7 +39,7 @@ const Login = ({loginemail, setloginEmail, loginpassword, setloginPassword }) =>
                         />
                     </div>
                     <div style={{textAlign:'center'}}>
-                        <button type="submit">Login</button>
+                        <button type="submit" className="btn-submit">Login</button>
                 </div>
             </form>
         </>

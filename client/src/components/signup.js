@@ -3,8 +3,15 @@ import { createUsers } from '../api/index';
 import '../components/style.global.css';
 
 //const [firstName, setFirstName] = useState(null);
-const Signup = ({ userinfo, setUserinfo }) =>{
-    console.log(userinfo);
+const Signup = () =>{
+
+    const [userinfo, setUserinfo] = useState({
+        firstname: '',
+        lastname: '',
+        email: '',
+        password: '',
+        role: ''
+    });
 
    
         const clearInput = () => {
