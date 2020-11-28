@@ -19,7 +19,7 @@ app.use('/users', userRoutes);
 
 const CONNECTION_URL = 'mongodb+srv://role-base:rolebase@cluster0.8rhur.mongodb.net/users?retryWrites=true&w=majority';
 const PORT = process.env.PORT || 9000;
-mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true})
+mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
     .then(() => app.listen(PORT, () => console.log(`server running on port: ${PORT}`)))
     .catch((error) => console.log(error.message));
     
