@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
 
 import userModel from '../models/userModel.js';
+import loanModel from '../models/loanModel.js';
 
 //fetch users
 export const getUsers = async (req, res) => {
@@ -16,6 +17,67 @@ export const getUsers = async (req, res) => {
     
 }
 
+//fetch single user
+export const fetchUser = async (req, res) => {
+    try {
+        const { id: _id } = req.params;
+          const user = await userModel.findById(_id);
+          res.status(200).json([
+                {
+                    id: user._id,
+                    firstname: user.firstname,
+                    lastname: user.lastname,
+                    email: user.email,
+                    role: user.role,
+                }
+          ]);
+         
+    } catch (error) {
+        
+        res.status(404).json({ message: error });
+    }
+     
+ }
+
+
+//loan generation
+export const generateLoan = async (req, res) => {
+    let { customerId, state, interest, tenure } = req.body;
+    //validate
+    if(!customerId || !interest || !state || !tenure)
+        return res.status(400).json({msg : "Not all fields have been entered."});
+        if(interest === "interest")
+        return res.status(400).json({msg : "Please select the interest."});
+        if(tenure === "tenure")
+        return res.status(400).json({msg : "Please select the tenure."});
+        const loan = req.body;
+
+        const userLoan = new loanModel(loan);
+        try {
+            await userLoan.save();
+             const user = await loanModel.findById(userLoan._id);
+             res.status(201).json([
+                  {
+                     id: userLoan._id,
+                     customerId: userLoan.customerId,
+                     interest: userLoan.interest,
+                     tenure: userLoan.tenure,
+                     emi: userLoan.emi,
+                     state: userLoan.state,
+         
+                     },
+                 ]);
+            
+       
+         
+        } catch (error) {
+            res.status(409).json({ message: error});
+            
+        }
+        
+
+
+}
 //user registration 
 export const createUser = async (req, res) => {
     let { firstname, lastname, email, password, role } = req.body;
@@ -34,23 +96,28 @@ export const createUser = async (req, res) => {
     return res.status(400).json({msg : "An account with this user already exists."});
 
     const salt = await bcrypt.genSalt();
-    const user = req.body;
+    const user = req.body;  // need to check this statement 
     let hashpassword = req.body.password;
     hashpassword = await bcrypt.hash(hashpassword, salt);
     req.body.password = hashpassword;
-   //res.json({user: user});
-    res.json({
-        user: {
-        id: user._id,
-        email: user.email,
-        role: user.role,
 
-        },
-    })
    const newUser = new userModel(user);
    try {
        await newUser.save();
-       res.status(201).json(newUser);
+        const user = await userModel.findById(newUser._id);
+        res.status(201).json([
+             {
+                id: user._id,
+                firstname: user.firstname,
+                lastname: user.lastname,
+                email: user.email,
+                role: user.role,
+    
+                },
+            ]);
+       
+  
+    
    } catch (error) {
        res.status(409).json({ message: error});
        
@@ -101,7 +168,7 @@ export const deleteUser =  async  (req, res) => {
         
     }
 }
-
+//token validation
 export const tokenIsValid = async (req, res) => {
     try {
         const token = req.header('x-auth-token');
@@ -121,4 +188,15 @@ export const tokenIsValid = async (req, res) => {
        res.status(409).json({ message: error});
         
     }
+}
+
+//get logged in user
+export const user = async (req, res) => {
+    const user = await userModel.findById(req.user);
+    res.json({
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        id: user._id
+    });
 }

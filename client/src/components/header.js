@@ -1,14 +1,15 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import AuthOptions from './authOptions'
+import AuthOptions from './authOptions';
+import '../components/style.global.css';
 
 const Header = () => {
     return (
-        <div>
-            <Link to="/"><h1>Role Base MERN Auth</h1></Link>
+        <header id="header">
+            <Link className="title" to="/"><h1>Role Base Auth MERN </h1></Link>
             <AuthOptions />
-        </div>
+        </header>
     )
 }
 export default Header;

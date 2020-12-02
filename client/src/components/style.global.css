@@ -1,3 +1,9 @@
+*{
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body{
     background-color: #ee5522;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='a' gradientUnits='userSpaceOnUse' x1='100' y1='33' x2='100' y2='-3'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3ClinearGradient id='b' gradientUnits='userSpaceOnUse' x1='100' y1='135' x2='100' y2='97'%3E%3Cstop offset='0' stop-color='%23000' stop-opacity='0'/%3E%3Cstop offset='1' stop-color='%23000' stop-opacity='1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cg fill='%23ca481d' fill-opacity='0.6'%3E%3Crect x='100' width='100' height='100'/%3E%3Crect y='100' width='100' height='100'/%3E%3C/g%3E%3Cg fill-opacity='0.5'%3E%3Cpolygon fill='url(%23a)' points='100 30 0 0 200 0'/%3E%3Cpolygon fill='url(%23b)' points='100 100 0 130 0 100 200 100 200 130'/%3E%3C/g%3E%3C/svg%3E");
@@ -51,7 +57,11 @@ body{
     text-align: center;
 
 }
-
+/* button */
+button{
+    border:0;
+}
+/* submit button */
 .btn-submit{
     background-color: #479e81;
     color:#ffffff;
@@ -61,5 +71,147 @@ body{
     margin:0.2rem auto ;
     padding:0.3rem 0;
     font-size: 1.2rem;
+    
+}
+button,
+.btn-submit:hover{
+    cursor: pointer;
+}
+/* list */
+ul li{
+    list-style-type: none;
+}
+/* link */
+a{
+    text-decoration: none;
+}
+/* header */
+#header{
+    background-color: #cc0c0c;
+    display:flex;
+    justify-content: space-between;
+    height: 50px;
+    align-items: center;
+}
+#header .title{
+    margin:0;
+    color: #ffffff;
+    padding: 0 1rem;
+}
+#header .auth-options{
+    display: flex;
+    height: 100%;
+}
+#header .auth-options button{
+    background-color: #f32727;
+    background-color: #7c0b0b;
+
+    padding: 0 1rem;
+    color: #ffffff;
+    font-size: 1rem;
+}
+#header .auth-options button:hover{
+    background-color: #f32727;
+
+
+}
+
+
+
+/* home elements */
+.home-elements{
+    margin: 0 1rem;
+}
+
+.instructions{
+    margin-top: 2vh;
+    background-color: #5f3fa8;
+    line-height: 1.5rem;
+    color: #ffffff;
+    font-size:1rem;
+}
+.instructions ul li{
+    margin: 0 2vw;
+}
+.role{
+    background-color: #5f3fa8;
+    line-height: 1.5rem;
+    color: #ffffff;
+}
+.role ul li{
+    margin: 0 2vw;
+}
+
+/* Admin Tabble */
+.admin-table{
+    background-color: #479e81;
+    margin: 0 auto;
+    border:solid 1px #7c0b0b;
+}
+.admin-table tr td,th{
+    color: #ffffff;
+    border:solid 1px #7c0b0b;
+    padding: 1vh 1vh;
+
+}
+.edit-btn{
+    border: 0;
+    border-radius: 10px;
+    width: 5vw;
+    background-color: #7c0b0b;
+    color:#ffffff;
+    font-size: 0.8rem;
+    padding: 1vh;
+}
+/* agent-component */
+.agent-component{
+    width: 70vw;
+}
+.form-agent{
+    display:flex;
+    justify-content: space-between;
+}
+.form-agent-child{
+    width:10vw;
+}
+.form-agent button{
+    margin-left:2rem;
+    border: 0;
+    border-radius: 10px;
+    width: 5vw;
+    background-color: #7c0b0b;
+    color:#ffffff;
+    font-size: 0.8rem;
+}
+
+/* mobile responsive */
+@media screen and (max-width:800px){
+.components{
+    font-size: 0.9rem;
+    width: 90%;
+    height:65vh;
+}
+.top-label{
+    font-size: 1rem;
+}
+.input-box{
+    font-size: 0.7rem;
+    padding: 0.3rem;
+    margin: 0.3rem 0 0.5rem 5vw;
+    
+}
+.btn-submit{
+    margin:0.3rem auto ;
+    padding:0.1rem 0;
+    font-size: 0.9rem;
+}
+#header .title{
+    font-size: 0.5rem !important;
+}
+
+
+.home-component{
+    height: 80vh;
+}
     
 }

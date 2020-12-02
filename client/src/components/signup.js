@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { createUsers } from '../api/index';
+import React, { useState } from 'react';
+import axios from 'axios';
 import '../components/style.global.css';
 
-//const [firstName, setFirstName] = useState(null);
+
 const Signup = () =>{
 
+    let [registereduser, setRegisteredUser] = useState([])
     const [userinfo, setUserinfo] = useState({
         firstname: '',
         lastname: '',
@@ -25,7 +26,36 @@ const Signup = () =>{
         }
         const saveUser = (e) => {
             e.preventDefault();
-            createUsers(userinfo);
+            const headers = {
+                'Content-Type': 'application/json'
+              }
+              axios.post('http://localhost:9000/users/createUser', userinfo,{
+                headers: headers
+            }).then(res => {
+                console.log('users are',res.data);  
+                console.log('users are',res.data[0].id);                
+                const user_id = res.data[0].id;
+                let users = [];
+                axios.get(`http://localhost:9000/users/fetchUser/${user_id}`)
+                .then(res => {
+                    console.log('users are',res);
+                    users = JSON.stringify(res.data);
+                    console.log('bd',users);
+                    // setRegisteredUser(users);  
+                    registereduser = users;  
+                    console.log('state',registereduser); 
+                    console.log('userrrr',registereduser[0].firstname);
+                    console.log('len',registereduser.length);
+                    users.map((user) => console.log('userrrrrr',user.firstname))  ;
+                    
+                }).catch(err => {
+                    console.log(err);
+                }) ;
+                
+            }).catch(err => {
+                console.log(err);
+            }) ; 
+        
             clearInput();
         }
         const updateField = e => {
@@ -37,10 +67,10 @@ const Signup = () =>{
           };
 
           
-    
     return(
+        
         <>
-            
+            {registereduser.email !== null ?
             <form className='components'  onSubmit={saveUser}>
                 <div className="top-label">
                     <span > Register </span>
@@ -128,7 +158,9 @@ const Signup = () =>{
                 <button type="submit" className="btn-submit">Sign Up</button>
                 </div>
             </form>
+            : 'hello' }
         </>
+        
     )
 }
 export default Signup;
