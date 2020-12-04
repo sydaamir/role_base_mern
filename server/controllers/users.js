@@ -17,7 +17,7 @@ export const getUsers = async (req, res) => {
     
 }
 
-//fetch single user
+//fetch single user from userModel
 export const fetchUser = async (req, res) => {
     try {
         const { id: _id } = req.params;
@@ -39,18 +39,115 @@ export const fetchUser = async (req, res) => {
      
  }
 
+ //fetch all loan users
+ export const getLoanUsers = async (req, res) => {
+    try {
+          const loanUsers = await loanModel.find();
+          res.status(200).json(loanUsers);
+         
+    } catch (error) {
+        res.status(404).json({ message: error });
+    }
+     
+ }
+
+ //fetch single user from loanModel
+ export const fetchLoanUser = async (req, res) => {
+    try {
+        const { id: _id } = req.params;
+          const user = await loanModel.findById(_id);
+          res.status(200).json([
+                {
+                    id: user._id,
+                    customerId: user.customerId,
+                    state: user.state,
+                    interest: user.interest,
+                    emi: user.emi,
+                    tenure: user.tenure,
+                }
+          ]);
+         
+    } catch (error) {
+        
+        res.status(404).json({ message: error });
+    }
+     
+ }
+
+ //loan approval
+ export const approveLoan = async (req, res) => {
+    const { id: customerId } = req.params;
+    const state = 'Approved';
+        let user;
+        const loanUsers = await loanModel.find();
+        for(let i=0;i<loanUsers.length;i++)
+        {
+            if(loanUsers[i].customerId === customerId) {
+                if(loanUsers[i].state === 'New'){
+                user = await loanModel.findByIdAndUpdate(loanUsers[i]._id, { state }, { new: true }) 
+                res.status(200).json([
+                    {
+                        id: user._id,
+                        customerId: user.customerId,
+                        state: user.state,
+                        interest: user.interest,
+                        emi: user.emi,
+                        tenure: user.tenure,
+                    }
+              ]);
+            }
+            }
+        }
+       
+
+    }
+
+
+  //loan Rejection
+  export const rejectLoan = async (req, res) => {
+    const { id: customerId } = req.params;
+    const state = 'Rejected';
+        let user;
+        const loanUsers = await loanModel.find();
+        for(let i=0;i<loanUsers.length;i++)
+        {
+            if(loanUsers[i].customerId === customerId) {
+                user = await loanModel.findByIdAndUpdate(loanUsers[i]._id, { state }, { new: true }) 
+                res.status(200).json([
+                    {
+                        id: user._id,
+                        customerId: user.customerId,
+                        state: user.state,
+                        interest: user.interest,
+                        emi: user.emi,
+                        tenure: user.tenure,
+                    }
+              ]);
+            }
+        }
+       
+
+ }
 
 //loan generation
 export const generateLoan = async (req, res) => {
-    let { customerId, state, interest, tenure } = req.body;
+    let { customerId, interest, tenure } = req.body;
     //validate
-    if(!customerId || !interest || !state || !tenure)
+    if(!customerId || !interest || !tenure)
         return res.status(400).json({msg : "Not all fields have been entered."});
         if(interest === "interest")
         return res.status(400).json({msg : "Please select the interest."});
         if(tenure === "tenure")
         return res.status(400).json({msg : "Please select the tenure."});
-        const loan = req.body;
+        // const loan = req.body;
+        const loan = {
+            customerId: req.body.customerId,
+            state: 'New',
+            interest: req.body.interest,
+            tenure: req.body.tenure
+
+        }
+
 
         const userLoan = new loanModel(loan);
         try {

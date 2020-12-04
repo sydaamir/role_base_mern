@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../components/style.global.css';
 import { loginUsers } from '../api/index';
-import Agent from '../components/agent';
+import Admin from '../components/admin';
+
 
 
 const Login = ({loginemail, setloginEmail, loginpassword, setloginPassword }) => {
@@ -72,7 +73,7 @@ const Login = ({loginemail, setloginEmail, loginpassword, setloginPassword }) =>
                         
                 </div>
             </form>
-            <Agent />
+            <Admin />
         </>
     )
 }

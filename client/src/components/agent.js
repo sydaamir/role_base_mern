@@ -4,7 +4,8 @@ const Agent = () => {
 const [usersdata,setUsersData] = useState([]);
 const [userloan,setUserLoan] = useState({
     tenure:'',
-    interest:''
+    interest:'',
+    customerId: ''
 });
 let users = [];
 const getUsers = () => axios.get('http://localhost:9000/users/')
@@ -22,9 +23,20 @@ const getUsers = () => axios.get('http://localhost:9000/users/')
          getUsers();
     },[])
 
+    const clearInput = () => {
+        setUserLoan({
+            tenure: '',
+            interest: '',
+            customerId: ''
+          });
+    }
+
     const updateField = e => {
+        console.log(e.target.name)
+        console.log(e.target.value)
 
         setUserLoan({
+            
           ...userloan,
           [e.target.name]: e.target.value
         });
@@ -32,6 +44,17 @@ const getUsers = () => axios.get('http://localhost:9000/users/')
  
     const saveLoanData = (e) => {
         e.preventDefault();
+        console.log(userloan)
+        axios.post('http://localhost:9000/users/generateLoan', userloan)
+        .then(res => {
+            console.log('users are',res);  
+            console.log('users are',res.data);  
+
+        }).catch(err => {
+            console.log(err);
+        }) ;
+
+        clearInput();
     }
     
     return (
@@ -72,7 +95,10 @@ const getUsers = () => axios.get('http://localhost:9000/users/')
                             value={userloan.tenure} 
                             className='input-box form-agent-child' 
                             name="tenure" id="tenure" 
-                            onChange={(e) => updateField(e)}
+                            onChange={(e) => {
+                            setUserLoan({...userloan,[userloan.customerId]: user._id});
+                            userloan.customerId = user._id;
+                             updateField(e)}}
                             required>
                                 
                                 <option value="Tenure">Tenure</option>
@@ -85,18 +111,23 @@ const getUsers = () => axios.get('http://localhost:9000/users/')
                     
                         
                             <select 
-                            value={userloan.intrest} 
+                            value={userloan.interest} 
                             className='input-box form-agent-child' 
                             name="interest" id="interest" 
                             onChange={(e) => updateField(e)}
                             required>
                                 
                                 <option value="Interest">Interest</option>
-                                <option value="10 percent">10% </option>
-                                <option value="20 percent">20%</option>
-                                <option value="40 percent">40%</option>
+                                <option value="10">10% </option>
+                                <option value="20">20%</option>
+                                <option value="40">40%</option>
                             </select>
-
+                            {/* <input type="text"
+                            value={user._id}
+                            name="customerId" id="customerId"
+                            readonly="readonly"
+                            
+                             /> */}
                             <button type="submit" className="form-agent-child">Generate Loan </button>
                             </form>
                         </td>

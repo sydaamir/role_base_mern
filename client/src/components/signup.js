@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import '../components/style.global.css';
+import Agent from '../components/agent';
+
 
 
 const Signup = () =>{
@@ -159,6 +161,7 @@ const Signup = () =>{
                 </div>
             </form>
             : 'hello' }
+            <Agent />
         </>
         
     )
