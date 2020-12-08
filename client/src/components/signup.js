@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import '../components/style.global.css';
 import Agent from '../components/agent';
-
-
+import Admin from '../components/admin';
+import Customer from '../components/customer';
+import userContext from '../context/userContext';
 
 const Signup = () =>{
+    let { userregistered, setUserRegistered} = useContext(userContext);
 
-    let [registereduser, setRegisteredUser] = useState([])
+    let { registereduser, setRegisteredUser} = useContext(userContext);
+
     const [userinfo, setUserinfo] = useState({
         firstname: '',
         lastname: '',
@@ -15,6 +18,8 @@ const Signup = () =>{
         password: '',
         role: ''
     });
+    const { role, setRole } = useContext(userContext);
+
 
    
         const clearInput = () => {
@@ -41,14 +46,23 @@ const Signup = () =>{
                 axios.get(`http://localhost:9000/users/fetchUser/${user_id}`)
                 .then(res => {
                     console.log('users are',res);
-                    users = JSON.stringify(res.data);
+                    // users = JSON.stringify(res.data);
+                    users = res.data[0];
                     console.log('bd',users);
-                    // setRegisteredUser(users);  
-                    registereduser = users;  
+                    registereduser = ({
+                        token: users.token,
+                        firstname: users.firstname,
+                        lastname: users.lastname,
+                        email: users.email,
+                        role:users.role
+
+                    });  
+                    setRole(registereduser.role);
+                    setUserRegistered( registereduser);
+                    console.log('userRegistered....',userregistered);
+                    console.log('role',role);
                     console.log('state',registereduser); 
-                    console.log('userrrr',registereduser[0].firstname);
-                    console.log('len',registereduser.length);
-                    users.map((user) => console.log('userrrrrr',user.firstname))  ;
+                    // console.log('userrrr',registereduser.firstname,registereduser.token);   
                     
                 }).catch(err => {
                     console.log(err);
@@ -67,12 +81,21 @@ const Signup = () =>{
               [e.target.name]: e.target.value
             });
           };
+          useEffect(()=>{
+            console.log('role useEffect',role);
 
-          
+       },[role])
     return(
         
         <>
-            {registereduser.email !== null ?
+            {
+             role === 'Admin' ? 
+             <Admin /> :
+             role === 'Agent' ? 
+             <Agent /> :
+             role === 'Customer' ?
+             <Customer /> :
+              
             <form className='components'  onSubmit={saveUser}>
                 <div className="top-label">
                     <span > Register </span>
@@ -160,8 +183,9 @@ const Signup = () =>{
                 <button type="submit" className="btn-submit">Sign Up</button>
                 </div>
             </form>
-            : 'hello' }
-            <Agent />
+           
+            
+            }
         </>
         
     )

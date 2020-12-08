@@ -11,17 +11,22 @@ import userContext from './context/userContext';
 
 
     const App = () =>{
-    // const [userinfo, setUserinfo] = useState({
-    //         firstname: '',
-    //         lastname: '',
-    //         email: '',
-    //         password: '',
-    //         role: ''
-    //     });
+    
+    let [registereduser, setRegisteredUser] = useState({
+        token: '',
+        firstname: '',
+        lastname: '',
+        email: '',
+        role: ''
+    });
         const [userData, setUserData] = useState({
             token: undefined,
             user: undefined
         });
+
+        let [userregistered,setUserRegistered] = useState('');
+        let [role, setRole] = useState('');
+
 
         useEffect(() => {
             const checkLoggedIn = async () => {
@@ -50,7 +55,7 @@ import userContext from './context/userContext';
     return(
         
             <BrowserRouter>
-            <userContext.Provider value={{userData, setUserData}}>
+            <userContext.Provider value={{userData, setUserData, userregistered, setUserRegistered, role, setRole, registereduser, setRegisteredUser}}>
             <Header />
             <Switch>
             <div className="container" >

@@ -22,8 +22,11 @@ export const fetchUser = async (req, res) => {
     try {
         const { id: _id } = req.params;
           const user = await userModel.findById(_id);
+          const JWT_SECRET = 'role-base-secret-key';
+          const token = jwt.sign({ id:_id }, JWT_SECRET);
           res.status(200).json([
                 {
+                    token: token,
                     id: user._id,
                     firstname: user.firstname,
                     lastname: user.lastname,
@@ -202,6 +205,8 @@ export const createUser = async (req, res) => {
    try {
        await newUser.save();
         const user = await userModel.findById(newUser._id);
+       
+
         res.status(201).json([
              {
                 id: user._id,

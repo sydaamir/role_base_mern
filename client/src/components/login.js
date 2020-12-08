@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import '../components/style.global.css';
 import { loginUsers } from '../api/index';
-import Admin from '../components/admin';
 
-
-
-const Login = ({loginemail, setloginEmail, loginpassword, setloginPassword }) => {
+const Login = () => {
     
     const [userlogin, setUserlogin] = useState({
         email: '',
@@ -73,7 +70,6 @@ const Login = ({loginemail, setloginEmail, loginpassword, setloginPassword }) =>
                         
                 </div>
             </form>
-            <Admin />
         </>
     )
 }
