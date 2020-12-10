@@ -1,6 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+import userContext from '../context/userContext';
+import LoanModal from '../components/loanModal';
+
+
 const Agent = () => {
+const { modal, setModal } = useContext(userContext);
+const [loanCustId, setLoanCustId] = useState('');
+
 const [usersdata,setUsersData] = useState([]);
 const [userloan,setUserLoan] = useState({
     tenure:'',
@@ -27,7 +34,7 @@ const getLoanUsers = () => {
     .then(res => {
         console.log('loan users are',res);  
         loanUserData = JSON.stringify(res.data);
-        setLoanUsers(loanUserData);
+        loanusers = loanUserData;
         console.log('uuuuuuuuuu',loanusers); 
 
     }).catch(err => {
@@ -35,11 +42,19 @@ const getLoanUsers = () => {
     })
 }
 
+const showModal = (userid) => {
+    setModal({
+        show: true
+      });
+      setLoanCustId(userid);
+      console.log('customer loan id',loanCustId);
+      console.log('modal state',modal)
+}
 
     useEffect(()=>{
          getUsers();
          getLoanUsers()
-    },[])
+    },[loanusers])
 
     const clearInput = () => {
         setUserLoan({
@@ -67,7 +82,8 @@ const getLoanUsers = () => {
         .then(res => {
             console.log('users are',res);  
             console.log('users are',res.data);
-            console.log(res.message);  
+            console.log(res.message);
+            alert('Loan has been successfully generated...'); 
 
         }).catch(err => {
             console.log(err);
@@ -79,6 +95,8 @@ const getLoanUsers = () => {
         
         
             <div className="components agent-component"> 
+            <LoanModal loanCustId = {loanCustId} />
+
             <h3 className="top-label">User details :</h3> 
             
             <table className="admin-table">
@@ -86,6 +104,7 @@ const getLoanUsers = () => {
                     <th>Firstname</th>
                     <th>Lastname</th>
                     <th>Email</th>
+                    <th>Approved Loans</th>
                     {/* <th>Action</th> */}
                     {/* <th>Tenure</th>
                     <th>Interest</th>
@@ -96,17 +115,17 @@ const getLoanUsers = () => {
                 
                 usersdata.map((user,index) => user.role === 'Customer' ?
 
-
                     <tr>
+
                         <td>{user.firstname }</td>
                         <td>{user.lastname}</td>
                         <td>{user.email}</td>
+                        <td style={{textAlign: 'center'}}>
+                            <button className="edit-btn" onClick={ () => showModal(user._id) }>View</button>
+                        </td>
                       
 
-                            {/* {loanusers[index].customerId === user._id && loanusers[index].state === 'New' ?
-                            <td>Loan already generated</td>
-
-                            : 
+                            
                             <td>
                             <form onSubmit={saveLoanData} className='form-agent'>
                             
@@ -143,11 +162,10 @@ const getLoanUsers = () => {
                                 <button type="submit" className="form-agent-child">Generate Loan </button>
                                 </form>
                             </td>
+                            
                            
 
-                            
-                        } */}
-                          
+                              
                     </tr>
             : '' )
         }

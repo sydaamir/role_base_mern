@@ -1,0 +1,69 @@
+import React, { useState, useContext, useEffect } from 'react';
+import axios from 'axios';
+import userContext from '../context/userContext';
+
+
+ const LoanModal = ({loanCustId }) => {
+    const[approvedUser, setApprovedUser] = useState([]);
+
+    const {usersdata,setUsersData} = useContext(userContext);
+    const {loanusers,setLoanUsers} = useContext(userContext);
+    const { modal, setModal } = useContext(userContext);
+    console.log('modal prop', loanCustId);
+ 
+    
+    const closeModal = () => {
+        setModal({
+            show: false
+          });
+          console.log('modal state',modal)
+    }
+
+  
+        
+   
+
+    return (
+        
+            !modal.show ? 
+            null:
+            <div className="loan-modal">
+                
+                <div className='modal-header'>
+                    <h3 className="top-label">Loan details :</h3> 
+                    <button className=" modal-close-btn" onClick={  closeModal }>x</button>
+                </div>
+                <div className=""> 
+           
+                <table className="loan-modal-table">
+                    <tr>
+                        <th>State</th>
+                        <th>Emi</th>
+                        <th>Interest</th>
+                        <th>Tenure</th>
+                    </tr>
+            
+           
+                        {
+                            loanusers.map(loan => loan.state === 'Approved' && loan.customerId === loanCustId  ? 
+                            <tr>
+                                <td>{loan.state}</td>
+                                <td>{loan.emi}</td>
+                                <td>{loan.interest}</td>
+                                <td>{loan.tenure}</td>
+                            </tr>
+                        :''
+                        )
+                        }
+            
+                
+                </table> 
+        </div>
+            </div>
+
+        
+        
+    )
+}
+
+export default LoanModal

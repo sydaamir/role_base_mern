@@ -1,8 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
+
+import LoanModal from '../components/loanModal';
+import userContext from '../context/userContext';
+
+
+
 const Admin = () => {
-const [usersdata,setUsersData] = useState([]);
-const [loanusers,setLoanUsers] = useState([]);
+const {usersdata,setUsersData} = useContext(userContext);
+const {loanusers,setLoanUsers} = useContext(userContext);
+const { modal, setModal } = useContext(userContext);
+
+const [loanCustId, setLoanCustId] = useState('');
+
 
 
 let users = [];
@@ -36,7 +46,9 @@ const loanApproval = (customerId) => {
         console.log('loan users are',res);  
         loanUserData = res.data;
         setLoanUsers(loanUserData);
-        console.log(loanusers);  
+        console.log(loanusers);
+        
+        alert('Loan has been successfully approved...');  
     }).catch(err => {
         console.log(err);
     })
@@ -48,27 +60,38 @@ const loanRejection = (customerId) => {
         loanUserData = res.data;
         setLoanUsers(loanUserData);
         console.log(loanusers);  
+        alert('Loan has been successfully rejected...');  
+
     }).catch(err => {
         console.log(err);
     })
 }
-    
+    const showModal = (userid) => {
+        setModal({
+            show: true
+          });
+          setLoanCustId(userid);
+          console.log('customer loan id',loanCustId);
+          console.log('modal state',modal)
+    }
     useEffect(()=>{
          getUsers();
          getLoanUsers();
-    },[])
+    },[loanusers])
 
 
 
     return (
             <div className="components admin-component"> 
+            <LoanModal loanCustId = {loanCustId} />
             <h3 className="top-label">User details :</h3> 
+            
             <table className="admin-table">
                 <tr>
                     <th>Firstname</th>
                     <th>Lastname</th>
                     <th>Email</th>
-                    <th>Action</th>
+                    <th>Approved Loans</th>
                 </tr>
             {
             usersdata.map(user => user.role === 'Customer'  
@@ -78,8 +101,8 @@ const loanRejection = (customerId) => {
                         <td>{user.firstname }</td>
                         <td>{user.lastname}</td>
                         <td>{user.email}</td>
-                        <td>
-                            <button className="edit-btn">Edit</button>
+                        <td style={{textAlign: 'center'}}>
+                            <button className="edit-btn" onClick={ () => showModal(user._id) }>View</button>
                         </td>
                          
                     {loanusers.map(loanUser => loanUser.customerId === user._id ? 
@@ -88,9 +111,7 @@ const loanRejection = (customerId) => {
                         <td><button className="edit-btn" onClick={ () => loanApproval(loanUser.customerId) }>Approve Loan</button></td>
                         <td><button className="edit-btn" onClick={ () => loanRejection(loanUser.customerId) }>Reject Loan</button></td>
                     </>
-                    : loanUser.state === 'Approved' ? 
-                        <td> Loan Approved </td> :
-                        <td>Loan Rejected</td>
+                    : ''
                     : '')}
                     </tr>
             : '' )

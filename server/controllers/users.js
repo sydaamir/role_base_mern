@@ -57,8 +57,8 @@ export const fetchUser = async (req, res) => {
  //fetch single user from loanModel
  export const fetchLoanUser = async (req, res) => {
     try {
-        const { id: _id } = req.params;
-          const user = await loanModel.findById(_id);
+        const { id: customerId } = req.params;
+          const user = await loanModel.findOne({ customerId: customerId });
           res.status(200).json([
                 {
                     id: user._id,
@@ -115,6 +115,7 @@ export const fetchUser = async (req, res) => {
         for(let i=0;i<loanUsers.length;i++)
         {
             if(loanUsers[i].customerId === customerId) {
+                if(loanUsers[i].state === 'New'){
                 user = await loanModel.findByIdAndUpdate(loanUsers[i]._id, { state }, { new: true }) 
                 res.status(200).json([
                     {
@@ -126,6 +127,7 @@ export const fetchUser = async (req, res) => {
                         tenure: user.tenure,
                     }
               ]);
+            }
             }
         }
        
@@ -243,15 +245,17 @@ export const login = async (req, res) => {
         return res.status(400).json({msg : "Invalid credentials."});
         const JWT_SECRET = 'role-base-secret-key';
         const token = jwt.sign({ id:user._id }, JWT_SECRET);
-        res.json({
-            token,
-            user: {
+        res.status(200).json([
+            {
+            token: token,
             id: user._id,
+            firstname: user.firstname,
+            lastname: user.lastname,
             email: user.email,
             role: user.role,
 
             },
-        })
+        ])
 
 
     } catch (error) {

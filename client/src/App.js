@@ -13,11 +13,11 @@ import userContext from './context/userContext';
     const App = () =>{
     
     let [registereduser, setRegisteredUser] = useState({
-        token: '',
-        firstname: '',
-        lastname: '',
-        email: '',
-        role: ''
+        token: undefined,
+        firstname: undefined,
+        lastname: undefined,
+        email: undefined,
+        role: undefined
     });
         const [userData, setUserData] = useState({
             token: undefined,
@@ -26,11 +26,20 @@ import userContext from './context/userContext';
 
         let [userregistered,setUserRegistered] = useState('');
         let [role, setRole] = useState('');
+        const [loggedInUser, setLoggedInUser ] = useState('');
+        const [modal, setModal] = useState({
+            show: false
+        });
+
+        const [usersdata,setUsersData] = useState([]);
+        const [loanusers,setLoanUsers] = useState([]);
+
 
 
         useEffect(() => {
             const checkLoggedIn = async () => {
                 let token = localStorage.getItem("auth-token");
+                console.log('auth-token',token);
                 if(token === null){
                     localStorage.setItem("auth-token","");
                     token= "";
@@ -55,7 +64,25 @@ import userContext from './context/userContext';
     return(
         
             <BrowserRouter>
-            <userContext.Provider value={{userData, setUserData, userregistered, setUserRegistered, role, setRole, registereduser, setRegisteredUser}}>
+            <userContext.Provider 
+            value={{
+                 userData,
+                 setUserData, 
+                 userregistered, 
+                 setUserRegistered, 
+                 role, 
+                 setRole, 
+                 registereduser, 
+                 setRegisteredUser,
+                 loggedInUser,
+                 setLoggedInUser,
+                 modal,
+                 setModal,
+                 usersdata,
+                 setUsersData,
+                 loanusers,
+                 setLoanUsers
+                 }}>
             <Header />
             <Switch>
             <div className="container" >
