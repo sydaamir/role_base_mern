@@ -188,8 +188,8 @@ export const createUser = async (req, res) => {
         return res.status(400).json({msg : "Not all fields have been entered."});
     if(role === "Select")
         return res.status(400).json({msg : "Please select the Role."});
-    if(role === 'Admin' || role === 'Agent')
-        role = 'none';
+    // if(role === 'Admin' || role === 'Agent')
+    //     role = 'none';
 
     if(password.length < 6)
         return res.status(400).json({msg : "The password needs to be atleast 6 characters long."});
@@ -207,10 +207,12 @@ export const createUser = async (req, res) => {
    try {
        await newUser.save();
         const user = await userModel.findById(newUser._id);
-       
+        const JWT_SECRET = 'role-base-secret-key';
+        const token = jwt.sign({ id:newUser._id }, JWT_SECRET);
 
         res.status(201).json([
              {
+                token: token,
                 id: user._id,
                 firstname: user.firstname,
                 lastname: user.lastname,
@@ -303,6 +305,7 @@ export const user = async (req, res) => {
         firstname: user.firstname,
         lastname: user.lastname,
         email: user.email,
-        id: user._id
+        id: user._id,
+        role: user.role
     });
 }

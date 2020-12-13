@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import userContext from '../context/userContext';
 import axios from 'axios';
 
@@ -6,12 +6,20 @@ import axios from 'axios';
 const Customer = () => {
 const {loanusers,setLoanUsers} = useContext(userContext);
 let { loggedInUser, setLoggedInUser} = useContext(userContext);
+let { userregistered, setUserRegistered} = useContext(userContext);
+const [userInfo, setUserInfo] = useState({
+    firstname: undefined,
+    id: undefined
+})
 
-let fieldsFlag = true;
+
 
 let loanUserData = [];
 const getLoanUsers = () => {
-    axios.get(`http://localhost:9000/users/getLoanUsers`)
+    let Token = localStorage.getItem("auth-token");
+
+    axios.get(`http://localhost:9000/users/getLoanUsers`,
+    { headers: { "x-auth-token": Token } })
     .then(res => {
         console.log('loan users are',res);  
         loanUserData = res.data;
@@ -25,7 +33,24 @@ const getLoanUsers = () => {
 
 useEffect(()=>{
     getLoanUsers();
-},[loanusers])
+    if(loggedInUser) {
+        setUserInfo({
+            firstname: loggedInUser.firstname,
+            id: loggedInUser.id
+        });
+
+    }
+    if(userregistered) {
+        setUserInfo({
+            firstname: userregistered.firstname,
+            id: userregistered.id
+        });
+    
+        }
+    
+},[loggedInUser, userregistered])
+
+
 
     return (
         <div className="components admin-component"> 
@@ -37,7 +62,7 @@ useEffect(()=>{
                     fontStyle: 'italic', 
                     marginLeft: '1rem' }}>
 
-                        { loggedInUser.firstname }
+                        { userInfo.firstname }
                 </span>
              </h3> 
             
@@ -50,8 +75,9 @@ useEffect(()=>{
                 </tr>
             {
                 
-            loanusers.map(user => user.customerId === loggedInUser.id && user.state === 'Approved' ? 
+            loanusers.map(user => user.customerId === userInfo.id && user.state === 'Approved' ? 
                     <tr>
+                    
                         <td>{user.state}</td>
                         <td>{user.emi}</td>
                         <td>{user.interest}</td>

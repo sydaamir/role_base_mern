@@ -43,7 +43,11 @@ const Signup = () =>{
                 console.log('users are',res.data[0].id);                
                 const user_id = res.data[0].id;
                 let users = [];
-                axios.get(`http://localhost:9000/users/fetchUser/${user_id}`)
+                const Token = res.data[0].token;
+                localStorage.setItem("auth-token", Token);
+
+                axios.get(`http://localhost:9000/users/fetchUser/${user_id}`,
+                { headers: { "x-auth-token": Token } })
                 .then(res => {
                     console.log('users are',res);
                     // users = JSON.stringify(res.data);
@@ -54,7 +58,8 @@ const Signup = () =>{
                         firstname: users.firstname,
                         lastname: users.lastname,
                         email: users.email,
-                        role:users.role
+                        role:users.role,
+                        id: users._id
 
                     });  
                     setRole(registereduser.role);

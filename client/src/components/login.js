@@ -44,6 +44,9 @@ const Login = () => {
                 });
                 setRole(loginUser.role);
 
+                localStorage.setItem("auth-token",loginUser.token);
+
+
                 console.log('logged in user',loggedInUser);
             }).catch(err => {
                     console.log(err);

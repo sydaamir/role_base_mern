@@ -13,22 +13,31 @@ const { modal, setModal } = useContext(userContext);
 
 const [loanCustId, setLoanCustId] = useState('');
 
+let Token = localStorage.getItem("auth-token");
 
 
 let users = [];
-const getUsers = () => axios.get('http://localhost:9000/users/')
-.then(res => {
-    console.log('users are',res);
-    users = res.data;
-    setUsersData(users);
-    
-}).catch(err => {
-    console.log(err);
-}) ;
+const getUsers = () => {
+    let Token = localStorage.getItem("auth-token");
+
+    axios.get('http://localhost:9000/users/',
+    { headers: { "x-auth-token": Token } })
+    .then(res => {
+        console.log('users are',res);
+        users = res.data;
+        setUsersData(users);
+        
+    }).catch(err => {
+        console.log(err);
+    }) ;
+}
 
 let loanUserData = [];
 const getLoanUsers = () => {
-    axios.get(`http://localhost:9000/users/getLoanUsers`)
+    let Token = localStorage.getItem("auth-token");
+
+    axios.get(`http://localhost:9000/users/getLoanUsers`,
+    { headers: { "x-auth-token": Token } })
     .then(res => {
         console.log('loan users are',res);  
         loanUserData = res.data;
@@ -41,7 +50,10 @@ const getLoanUsers = () => {
 }
 
 const loanApproval = (customerId) => {
-    axios.patch(`http://localhost:9000/users/approveLoan/${customerId}`)
+    let Token = localStorage.getItem("auth-token");
+
+    axios.patch(`http://localhost:9000/users/approveLoan/${customerId}`, null,
+    { headers: { "x-auth-token": Token } })
     .then(res => {
         console.log('loan users are',res);  
         loanUserData = res.data;
@@ -54,7 +66,10 @@ const loanApproval = (customerId) => {
     })
 }
 const loanRejection = (customerId) => {
-    axios.patch(`http://localhost:9000/users/rejectLoan/${customerId}`)
+    let Token = localStorage.getItem("auth-token");
+
+    axios.patch(`http://localhost:9000/users/rejectLoan/${customerId}`, null,
+    { headers: { "x-auth-token": Token } })
     .then(res => {
         console.log('loan users are',res);  
         loanUserData = res.data;

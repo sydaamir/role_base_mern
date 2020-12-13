@@ -16,21 +16,30 @@ const [userloan,setUserLoan] = useState({
 });
 let [loanusers,setLoanUsers] = useState([]);
 
+
 let users = [];
-const getUsers = () => axios.get('http://localhost:9000/users/')
-.then(res => {
-    console.log('users are',res);
-    users = res.data;
-    setUsersData(users);
+const getUsers = () => {
+    let Token = localStorage.getItem("auth-token");
     
-}).catch(err => {
-    console.log(err);
-}) ;
+    axios.get('http://localhost:9000/users/',
+    { headers: { "x-auth-token": Token } })
+    .then(res => {
+        console.log('users are',res);
+        users = res.data;
+        setUsersData(users);
+        
+    }).catch(err => {
+        console.log(err);
+    }) ;
+}
 
 
 let loanUserData = [];
 const getLoanUsers = () => {
-    axios.get(`http://localhost:9000/users/getLoanUsers`)
+    let Token = localStorage.getItem("auth-token");
+
+    axios.get(`http://localhost:9000/users/getLoanUsers`,
+    { headers: { "x-auth-token": Token } })
     .then(res => {
         console.log('loan users are',res);  
         loanUserData = JSON.stringify(res.data);
@@ -78,7 +87,10 @@ const showModal = (userid) => {
     const saveLoanData = (e) => {
         e.preventDefault();
         console.log(userloan)
-        axios.post('http://localhost:9000/users/generateLoan', userloan)
+        let Token = localStorage.getItem("auth-token");
+
+        axios.post('http://localhost:9000/users/generateLoan', userloan,
+        { headers: { "x-auth-token": Token } })
         .then(res => {
             console.log('users are',res);  
             console.log('users are',res.data);

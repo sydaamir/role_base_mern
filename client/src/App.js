@@ -17,7 +17,8 @@ import userContext from './context/userContext';
         firstname: undefined,
         lastname: undefined,
         email: undefined,
-        role: undefined
+        role: undefined,
+        id: undefined
     });
         const [userData, setUserData] = useState({
             token: undefined,
@@ -56,6 +57,7 @@ import userContext from './context/userContext';
                         token,
                         user: userRes.data,
                     })
+                    console.log('setuserdata',userData)
                 }
             }
             checkLoggedIn();

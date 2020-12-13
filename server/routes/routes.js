@@ -5,18 +5,18 @@ import { auth } from '../middleware/auth.js'
 
 const router = express.Router();
 
-router.get('/', getUsers);
+router.get('/',auth, getUsers);
 router.post('/createUser', createUser);
 router.post('/login', login);
 router.delete('/deleteUser', auth, deleteUser);
 router.post('/tokenIsValid', tokenIsValid);
-router.post('/generateLoan', generateLoan);
+router.post('/generateLoan',auth, generateLoan);
 router.get('/user', auth, user);
-router.get('/fetchUser/:id', fetchUser);
-router.get('/fetchLoanUser/:id', fetchLoanUser);
-router.get('/getLoanUsers', getLoanUsers);
-router.patch('/rejectLoan/:id', rejectLoan);
-router.patch('/approveLoan/:id', approveLoan);
+router.get('/fetchUser/:id',auth, fetchUser);
+router.get('/fetchLoanUser/:id', auth, fetchLoanUser);
+router.get('/getLoanUsers',auth, getLoanUsers);
+router.patch('/rejectLoan/:id', auth, rejectLoan);
+router.patch('/approveLoan/:id', auth, approveLoan);
 
 
 
