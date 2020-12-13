@@ -4,7 +4,7 @@ const errorNotice = (props) => {
     return (
         <div className="error-notice">
             <span>{ props.message }</span>
-            <button onClick={props.clearError} >X</button>
+            <button className='edit-btn' onClick={props.clearError} >x</button>
         </div>
     )
 }

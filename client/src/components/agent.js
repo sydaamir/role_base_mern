@@ -2,11 +2,15 @@ import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import userContext from '../context/userContext';
 import LoanModal from '../components/loanModal';
+import ErrorNotice from '../components/errorNotice';
+
 
 
 const Agent = () => {
 const { modal, setModal } = useContext(userContext);
 const [loanCustId, setLoanCustId] = useState('');
+const [error, setError] = useState();
+
 
 const [usersdata,setUsersData] = useState([]);
 const [userloan,setUserLoan] = useState({
@@ -30,6 +34,8 @@ const getUsers = () => {
         
     }).catch(err => {
         console.log(err);
+        err.response.data.msg && setError(err.response.data.msg);
+
     }) ;
 }
 
@@ -48,6 +54,8 @@ const getLoanUsers = () => {
 
     }).catch(err => {
         console.log(err);
+        err.response.data.msg && setError(err.response.data.msg);
+
     })
 }
 
@@ -99,6 +107,8 @@ const showModal = (userid) => {
 
         }).catch(err => {
             console.log(err);
+            err.response.data.msg && setError(err.response.data.msg);
+
         }) ;
 
         clearInput();
@@ -108,8 +118,12 @@ const showModal = (userid) => {
         
             <div className="components agent-component"> 
             <LoanModal loanCustId = {loanCustId} />
+            <div className="top-label">
+            {error && <ErrorNotice message={error} clearError={() => setError(undefined)} />}
+            
+            <span >User details :</span> 
 
-            <h3 className="top-label">User details :</h3> 
+            </div>
             
             <table className="admin-table">
                 <tr>

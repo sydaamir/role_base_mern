@@ -5,10 +5,11 @@ import Agent from '../components/agent';
 import Admin from '../components/admin';
 import Customer from '../components/customer';
 import userContext from '../context/userContext';
+import ErrorNotice from '../components/errorNotice';
 
 const Signup = () =>{
     let { userregistered, setUserRegistered} = useContext(userContext);
-
+    const [error, setError] = useState();
     let { registereduser, setRegisteredUser} = useContext(userContext);
 
     const [userinfo, setUserinfo] = useState({
@@ -32,6 +33,7 @@ const Signup = () =>{
               });
         }
         const saveUser = (e) => {
+            try{
             e.preventDefault();
             const headers = {
                 'Content-Type': 'application/json'
@@ -71,13 +73,22 @@ const Signup = () =>{
                     
                 }).catch(err => {
                     console.log(err);
+                    err.response.data.msg && setError(err.response.data.msg);
+
                 }) ;
                 
             }).catch(err => {
                 console.log(err);
+                err.response.data.msg && setError(err.response.data.msg);
+
             }) ; 
         
             clearInput();
+        }
+        catch(err)
+        {
+            err.response.data.msg && setError(err.response.data.msg);
+        }
         }
         const updateField = e => {
 
@@ -103,7 +114,9 @@ const Signup = () =>{
               
             <form className='components'  onSubmit={saveUser}>
                 <div className="top-label">
+                    {error && <ErrorNotice message={error} clearError={() => setError(undefined)} />}
                     <span > Register </span>
+
                 </div>  
                     <div>
                     <label className='text-label' htmlFor="firstname">First Name</label>

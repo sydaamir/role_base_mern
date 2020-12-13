@@ -11,13 +11,12 @@ const [userInfo, setUserInfo] = useState({
     firstname: undefined,
     id: undefined
 })
+let Token = localStorage.getItem("auth-token");
 
 
 
 let loanUserData = [];
 const getLoanUsers = () => {
-    let Token = localStorage.getItem("auth-token");
-
     axios.get(`http://localhost:9000/users/getLoanUsers`,
     { headers: { "x-auth-token": Token } })
     .then(res => {

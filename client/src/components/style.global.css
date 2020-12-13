@@ -240,6 +240,13 @@ a{
     padding:0 0.5rem;
 }
 
+/* error notice component */
+.error-notice{
+    background-color: #a82d2d;
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+}
 
 
 /* mobile responsive */

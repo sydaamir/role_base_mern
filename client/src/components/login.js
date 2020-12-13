@@ -1,12 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import '../components/style.global.css';
-import { loginUsers } from '../api/index';
 import Axios from 'axios';
 import userContext from '../context/userContext';
 
 import Agent from '../components/agent';
 import Admin from '../components/admin';
 import Customer from '../components/customer';
+import ErrorNotice from '../components/errorNotice';
+
 
 
 const Login = () => {
@@ -17,6 +18,8 @@ const Login = () => {
     });
     let { loggedInUser, setLoggedInUser} = useContext(userContext);
     const { role, setRole } = useContext(userContext);
+    const [error, setError] = useState();
+
 
    
         const clearInput = () => {
@@ -27,8 +30,8 @@ const Login = () => {
               });
         }
         const loginUser = (e) => {
+            try{
             e.preventDefault();
-            loginUsers(userlogin);
             Axios.post('http://localhost:9000/users/login', userlogin)
             .then(res => {
                 console.log('login user is',res.data[0]);
@@ -50,8 +53,15 @@ const Login = () => {
                 console.log('logged in user',loggedInUser);
             }).catch(err => {
                     console.log(err);
+                    err.response.data.msg && setError(err.response.data.msg);
+
             }) ;
             clearInput();
+            }
+        catch(err)
+        {
+            err.response.data.msg && setError(err.response.data.msg);
+        }
         }
         const updateField = e => {
 
@@ -72,6 +82,8 @@ const Login = () => {
              <Customer /> :
             <form className='components ' onSubmit={loginUser}>
                 <div className="top-label">
+                    {error && <ErrorNotice message={error} clearError={() => setError(undefined)} />}
+
                     <label  >Sign In </label>
                 </div>
                 <div>

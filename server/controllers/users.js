@@ -195,7 +195,7 @@ export const createUser = async (req, res) => {
         return res.status(400).json({msg : "The password needs to be atleast 6 characters long."});
     const existingUser = await userModel.findOne({ email: email });
     if(existingUser)
-    return res.status(400).json({msg : "An account with this user already exists."});
+    return res.status(400).json({msg : "An account with this email already exists."});
 
     const salt = await bcrypt.genSalt();
     const user = req.body;  // need to check this statement 
