@@ -17,6 +17,7 @@ const Signup = () =>{
         lastname: '',
         email: '',
         password: '',
+        confirm_password: '',
         role: ''
     });
     const { role, setRole } = useContext(userContext);
@@ -29,6 +30,7 @@ const Signup = () =>{
                 lastname: '',
                 email: '',
                 password: '',
+                confirm_password: '',
                 role:''
               });
         }
@@ -112,7 +114,7 @@ const Signup = () =>{
              role === 'Customer' ?
              <Customer /> :
               
-            <form className='components'  onSubmit={saveUser}>
+            <form className='components signup-component'  onSubmit={saveUser}>
                 <div className="top-label">
                     {error && <ErrorNotice message={error} clearError={() => setError(undefined)} />}
                     <span > Register </span>
@@ -180,6 +182,22 @@ const Signup = () =>{
                     required
                 />
                 </div>
+                <div>
+                    <label className='text-label' htmlFor="confirm_password">Confirm-Password</label>
+                </div>
+                <div>
+                <input
+                    className='input-box'
+                    id="confirm_password"
+                    value={userinfo.confirm_password}
+                    onChange={(e) => updateField(e)}
+                    placeholder="Confirm-Password"
+                    type="password"
+                    name="confirm_password"
+                    required
+                />
+                </div>
+                
                 <div>
                     <label className='text-label' htmlFor="role">Role</label>
                 </div>

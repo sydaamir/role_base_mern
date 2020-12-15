@@ -20,10 +20,19 @@ const loanSchema = mongoose.Schema({
             required: true,
             default: 0
         },
+        amount: {
+            type: Number,
+            required: true,
+            default: 0
+        },
         tenure: {
             type: String,
             required: true,
             default: ''
+        },
+        createdAt: {
+            type: Date,
+            default: new Date()
         }
     });
 

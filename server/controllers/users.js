@@ -136,20 +136,27 @@ export const fetchUser = async (req, res) => {
 
 //loan generation
 export const generateLoan = async (req, res) => {
-    let { customerId, interest, tenure } = req.body;
+    let { customerId, interest, tenure, amount } = req.body;
     //validate
-    if(!customerId || !interest || !tenure)
+    if(!customerId || !interest || !tenure || !amount)
         return res.status(400).json({msg : "Not all fields have been entered."});
         if(interest === "interest")
         return res.status(400).json({msg : "Please select the interest."});
         if(tenure === "tenure")
         return res.status(400).json({msg : "Please select the tenure."});
+        // console.log(req.body.interest)
+        // interest = req.body.interest.split('%').slice(0, -1).join('%');
+        // tenure = req.body.tenure.split(' ').slice(0, -1).join(' ');
+        const final_interest = (interest / 100 ) * amount ;
+        const emi = (parseInt (amount) + final_interest) / parseInt(tenure);
         // const loan = req.body;
         const loan = {
             customerId: req.body.customerId,
             state: 'New',
-            interest: req.body.interest,
-            tenure: req.body.tenure
+            interest: final_interest,
+            tenure: req.body.tenure,
+            amount: req.body.amount,
+            emi: emi
 
         }
 
@@ -182,10 +189,12 @@ export const generateLoan = async (req, res) => {
 }
 //user registration 
 export const createUser = async (req, res) => {
-    let { firstname, lastname, email, password, role } = req.body;
+    let { firstname, lastname, email, password, confirm_password, role } = req.body;
     //validate
-    if(!firstname || !lastname || !email || !password || !role)
+    if(!firstname || !lastname || !email || !password || !confirm_password || !role)
         return res.status(400).json({msg : "Not all fields have been entered."});
+    if(password !== confirm_password)
+        return res.status(400).json({msg : "Passwords doesn't match."});
     if(role === "Select")
         return res.status(400).json({msg : "Please select the Role."});
     // if(role === 'Admin' || role === 'Agent')

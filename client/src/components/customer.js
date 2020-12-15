@@ -52,7 +52,7 @@ useEffect(()=>{
 
 
     return (
-        <div className="components admin-component"> 
+        <div className="components admin-component customer-component"> 
             <h3 className="top-label">Welcome 
                 <span 
                     style={{ fontSize: '2rem',
@@ -68,6 +68,7 @@ useEffect(()=>{
             <table className="admin-table">
                 <tr>
                     <th>State</th>
+                    <th>Amount</th>
                     <th>Emi</th>
                     <th>Interest</th>
                     <th>Tenure</th>
@@ -78,9 +79,10 @@ useEffect(()=>{
                     <tr>
                     
                         <td>{user.state}</td>
+                        <td>{user.amount}</td>
                         <td>{user.emi}</td>
                         <td>{user.interest}</td>
-                        <td>{user.tenure}</td>
+                        <td>{user.tenure}-months</td>
                     </tr>
             : 
             ''

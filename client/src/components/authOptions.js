@@ -55,6 +55,8 @@ const AuthOptions = () => {
                     <>
                     <button onClick={register}>Register</button>
                     <button onClick={login}>Login</button>
+        
+                    { localStorage.setItem('auth-token','') }
                     </>
                 )
                 }

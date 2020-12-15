@@ -16,6 +16,7 @@ const [usersdata,setUsersData] = useState([]);
 const [userloan,setUserLoan] = useState({
     tenure:'',
     interest:'',
+    amount: '',
     customerId: ''
 });
 let [loanusers,setLoanUsers] = useState([]);
@@ -77,7 +78,8 @@ const showModal = (userid) => {
         setUserLoan({
             tenure: '',
             interest: '',
-            customerId: ''
+            customerId: '',
+            amount: ''
           });
     }
 
@@ -154,6 +156,19 @@ const showModal = (userid) => {
                             
                             <td>
                             <form onSubmit={saveLoanData} className='form-agent'>
+
+                            <select 
+                                value={userloan.amount} 
+                                className='input-box form-agent-child' 
+                                name="amount" id="amount" 
+                                onChange={(e) => updateField(e)}
+                                required>
+                                    
+                                    <option value="Amount">Amount</option>
+                                    <option value="1000">1000 </option>
+                                    <option value="2000">2000</option>
+                                    <option value="4000">4000</option>
+                                </select>
                             
                                 <select 
                                 value={userloan.tenure} 
@@ -166,9 +181,9 @@ const showModal = (userid) => {
                                 required>
                                     
                                     <option value="Tenure">Tenure</option>
-                                    <option value="4-months">4 months</option>
-                                    <option value="8-months">8 months</option>
-                                    <option value="12-months">12 months</option>
+                                    <option value="4">4 months</option>
+                                    <option value="8">8 months</option>
+                                    <option value="12">12 months</option>
                                 </select>
         
                             
