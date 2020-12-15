@@ -13,7 +13,7 @@ const AuthOptions = () => {
 
     
     let { userregistered,setUserRegistered } = useContext(userContext);
-    let { registereduser, setRegisteredUser} = useContext(userContext);
+    let {  setRegisteredUser} = useContext(userContext);
 
     let { loggedInUser, setLoggedInUser} = useContext(userContext);
 
@@ -34,16 +34,16 @@ const AuthOptions = () => {
         localStorage.setItem('auth-token','');
     }
     useEffect(()=>{
-        console.log('userregistered useEffect',userregistered);
+        // console.log('userregistered useEffect',userregistered);
 
    },[userregistered]);
 
    useEffect (()=>{
-    console.log('logged in user useEffect',loggedInUser);
+    // console.log('logged in user useEffect',loggedInUser);
    },[loggedInUser]);
    
    useEffect (()=>{
-    console.log('logged in user useEffect',loggedInUser);
+    // console.log('logged in user useEffect',loggedInUser);
    },[role]);
 
     return (

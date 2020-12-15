@@ -29,7 +29,7 @@ const getUsers = () => {
     axios.get('http://localhost:9000/users/',
     { headers: { "x-auth-token": Token } })
     .then(res => {
-        console.log('users are',res);
+        // console.log('users are',res);
         users = res.data;
         setUsersData(users);
         
@@ -48,10 +48,10 @@ const getLoanUsers = () => {
     axios.get(`http://localhost:9000/users/getLoanUsers`,
     { headers: { "x-auth-token": Token } })
     .then(res => {
-        console.log('loan users are',res);  
+        // console.log('loan users are',res);  
         loanUserData = JSON.stringify(res.data);
         loanusers = loanUserData;
-        console.log('uuuuuuuuuu',loanusers); 
+        // console.log('uuuuuuuuuu',loanusers); 
 
     }).catch(err => {
         console.log(err);
@@ -65,8 +65,8 @@ const showModal = (userid) => {
         show: true
       });
       setLoanCustId(userid);
-      console.log('customer loan id',loanCustId);
-      console.log('modal state',modal)
+    //   console.log('customer loan id',loanCustId);
+    //   console.log('modal state',modal)
 }
 
     useEffect(()=>{
@@ -96,15 +96,15 @@ const showModal = (userid) => {
  
     const saveLoanData = (e) => {
         e.preventDefault();
-        console.log(userloan)
+        // console.log(userloan)
         let Token = localStorage.getItem("auth-token");
 
         axios.post('http://localhost:9000/users/generateLoan', userloan,
         { headers: { "x-auth-token": Token } })
         .then(res => {
-            console.log('users are',res);  
-            console.log('users are',res.data);
-            console.log(res.message);
+            // console.log('users are',res);  
+            // console.log('users are',res.data);
+            // console.log(res.message);
             alert('Loan has been successfully generated...'); 
 
         }).catch(err => {
@@ -133,10 +133,7 @@ const showModal = (userid) => {
                     <th>Lastname</th>
                     <th>Email</th>
                     <th>Approved Loans</th>
-                    {/* <th>Action</th> */}
-                    {/* <th>Tenure</th>
-                    <th>Interest</th>
-                    <th>Action</th> */}
+                    
 
                 </tr>
                 {

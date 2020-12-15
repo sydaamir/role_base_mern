@@ -8,9 +8,9 @@ import userContext from '../context/userContext';
 import ErrorNotice from '../components/errorNotice';
 
 const Signup = () =>{
-    let { userregistered, setUserRegistered} = useContext(userContext);
+    let {  setUserRegistered} = useContext(userContext);
     const [error, setError] = useState();
-    let { registereduser, setRegisteredUser} = useContext(userContext);
+    let { registereduser} = useContext(userContext);
 
     const [userinfo, setUserinfo] = useState({
         firstname: '',
@@ -43,8 +43,8 @@ const Signup = () =>{
               axios.post('http://localhost:9000/users/createUser', userinfo,{
                 headers: headers
             }).then(res => {
-                console.log('users are',res.data);  
-                console.log('users are',res.data[0].id);                
+                // console.log('users are',res.data);  
+                // console.log('users are',res.data[0].id);                
                 const user_id = res.data[0].id;
                 let users = [];
                 const Token = res.data[0].token;
@@ -53,10 +53,10 @@ const Signup = () =>{
                 axios.get(`http://localhost:9000/users/fetchUser/${user_id}`,
                 { headers: { "x-auth-token": Token } })
                 .then(res => {
-                    console.log('users are',res);
+                    // console.log('users are',res);
                     // users = JSON.stringify(res.data);
                     users = res.data[0];
-                    console.log('bd',users);
+                    // console.log('bd',users);
                     registereduser = ({
                         token: users.token,
                         firstname: users.firstname,
@@ -68,19 +68,19 @@ const Signup = () =>{
                     });  
                     setRole(registereduser.role);
                     setUserRegistered( registereduser);
-                    console.log('userRegistered....',userregistered);
-                    console.log('role',role);
-                    console.log('state',registereduser); 
+                    // console.log('userRegistered....',userregistered);
+                    // console.log('role',role);
+                    // console.log('state',registereduser); 
                     // console.log('userrrr',registereduser.firstname,registereduser.token);   
                     
                 }).catch(err => {
-                    console.log(err);
+                     console.log(err);
                     err.response.data.msg && setError(err.response.data.msg);
 
                 }) ;
                 
             }).catch(err => {
-                console.log(err);
+                 console.log(err);
                 err.response.data.msg && setError(err.response.data.msg);
 
             }) ; 
@@ -100,7 +100,7 @@ const Signup = () =>{
             });
           };
           useEffect(()=>{
-            console.log('role useEffect',role);
+            // console.log('role useEffect',role);
 
        },[role])
     return(

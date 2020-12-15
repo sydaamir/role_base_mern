@@ -165,7 +165,7 @@ a{
 }
 /* agent-component */
 .agent-component{
-    width: 70vw;
+    width: 80vw !important;
 }
 .form-agent{
     display:flex;

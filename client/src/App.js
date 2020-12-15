@@ -93,8 +93,7 @@ import userContext from './context/userContext';
                 <Route path="/signup" component={Signup} />
             </div>
             </Switch>
-                {/* <Signup className='components_abc' userinfo={userinfo} setUserinfo={setUserinfo}  /> */}
-                {/* <Login className='components_abc' loginemail setloginEmail loginpassword setloginPassword /> */}
+                
             </userContext.Provider>
             </BrowserRouter>
         

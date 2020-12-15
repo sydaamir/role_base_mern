@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext} from 'react';
 import '../components/style.global.css';
 import Axios from 'axios';
 import userContext from '../context/userContext';
@@ -34,7 +34,7 @@ const Login = () => {
             e.preventDefault();
             Axios.post('http://localhost:9000/users/login', userlogin)
             .then(res => {
-                console.log('login user is',res.data[0]);
+                // console.log('login user is',res.data[0]);
                 const loginUser = res.data[0];  
                 setLoggedInUser ({
                     token: loginUser.token,
@@ -50,7 +50,7 @@ const Login = () => {
                 localStorage.setItem("auth-token",loginUser.token);
 
 
-                console.log('logged in user',loggedInUser);
+                // console.log('logged in user',loggedInUser);
             }).catch(err => {
                     console.log(err);
                     err.response.data.msg && setError(err.response.data.msg);

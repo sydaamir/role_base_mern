@@ -5,8 +5,8 @@ import axios from 'axios';
 
 const Customer = () => {
 const {loanusers,setLoanUsers} = useContext(userContext);
-let { loggedInUser, setLoggedInUser} = useContext(userContext);
-let { userregistered, setUserRegistered} = useContext(userContext);
+let { loggedInUser} = useContext(userContext);
+let { userregistered} = useContext(userContext);
 const [userInfo, setUserInfo] = useState({
     firstname: undefined,
     id: undefined
@@ -20,10 +20,10 @@ const getLoanUsers = () => {
     axios.get(`http://localhost:9000/users/getLoanUsers`,
     { headers: { "x-auth-token": Token } })
     .then(res => {
-        console.log('loan users are',res);  
+        // console.log('loan users are',res);  
         loanUserData = res.data;
         setLoanUsers(loanUserData);
-        console.log(loanusers);  
+        // console.log(loanusers);  
     }).catch(err => {
         console.log(err);
     })

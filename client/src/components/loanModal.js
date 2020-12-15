@@ -1,22 +1,19 @@
-import React, { useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+import React, { useContext } from 'react';
 import userContext from '../context/userContext';
 
 
  const LoanModal = ({loanCustId }) => {
-    const[approvedUser, setApprovedUser] = useState([]);
 
-    const {usersdata,setUsersData} = useContext(userContext);
-    const {loanusers,setLoanUsers} = useContext(userContext);
+    const {loanusers} = useContext(userContext);
     const { modal, setModal } = useContext(userContext);
-    console.log('modal prop', loanCustId);
+    // console.log('modal prop', loanCustId);
  
     
     const closeModal = () => {
         setModal({
             show: false
           });
-          console.log('modal state',modal)
+        //   console.log('modal state',modal)
     }
 
   

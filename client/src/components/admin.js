@@ -9,11 +9,10 @@ import userContext from '../context/userContext';
 const Admin = () => {
 const {usersdata,setUsersData} = useContext(userContext);
 const {loanusers,setLoanUsers} = useContext(userContext);
-const { modal, setModal } = useContext(userContext);
+const {  setModal } = useContext(userContext);
 
 const [loanCustId, setLoanCustId] = useState('');
 
-let Token = localStorage.getItem("auth-token");
 
 
 let users = [];
@@ -23,7 +22,7 @@ const getUsers = () => {
     axios.get('http://localhost:9000/users/',
     { headers: { "x-auth-token": Token } })
     .then(res => {
-        console.log('users are',res);
+        // console.log('users are',res);
         users = res.data;
         setUsersData(users);
         
@@ -39,10 +38,10 @@ const getLoanUsers = () => {
     axios.get(`http://localhost:9000/users/getLoanUsers`,
     { headers: { "x-auth-token": Token } })
     .then(res => {
-        console.log('loan users are',res);  
+        // console.log('loan users are',res);  
         loanUserData = res.data;
         setLoanUsers(loanUserData);
-        console.log(loanusers);  
+        // console.log(loanusers);  
     }).catch(err => {
         console.log(err);
     })
@@ -55,10 +54,10 @@ const loanApproval = (customerId) => {
     axios.patch(`http://localhost:9000/users/approveLoan/${customerId}`, null,
     { headers: { "x-auth-token": Token } })
     .then(res => {
-        console.log('loan users are',res);  
+        // console.log('loan users are',res);  
         loanUserData = res.data;
         setLoanUsers(loanUserData);
-        console.log(loanusers);
+        // console.log(loanusers);
         
         alert('Loan has been successfully approved...');  
     }).catch(err => {
@@ -71,10 +70,10 @@ const loanRejection = (customerId) => {
     axios.patch(`http://localhost:9000/users/rejectLoan/${customerId}`, null,
     { headers: { "x-auth-token": Token } })
     .then(res => {
-        console.log('loan users are',res);  
+        // console.log('loan users are',res);  
         loanUserData = res.data;
         setLoanUsers(loanUserData);
-        console.log(loanusers);  
+        // console.log(loanusers);  
         alert('Loan has been successfully rejected...');  
 
     }).catch(err => {
@@ -86,8 +85,8 @@ const loanRejection = (customerId) => {
             show: true
           });
           setLoanCustId(userid);
-          console.log('customer loan id',loanCustId);
-          console.log('modal state',modal)
+        //   console.log('customer loan id',loanCustId);
+        //   console.log('modal state',modal)
     }
     useEffect(()=>{
          getUsers();
